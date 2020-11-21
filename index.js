@@ -1,5 +1,4 @@
 //Imports
-//Creo ya sirve esta cosa
 const express=require("express");
 const session=require("express-session");
 const MedicalDAO= require("./public/js/MedicalDAO.js")
@@ -40,10 +39,11 @@ app.get('',(req,res)=>{
     }
     console.log("Usuario:"+req.session.username);*/
     //let veces=req.session.cuenta;
-    res.render("index");
+    let failed=false;
+    res.render("index",{failed});
 });
 
-app.post("/doLogin",(req,res)=>{
+app.post("/login",(req,res)=>{
     medicalDAO.createConnection();
     medicalDAO.connectToDatabase();
     var credentials=[req.body.tipoUsuario,req.body.username,req.body.password];
@@ -54,7 +54,8 @@ app.post("/doLogin",(req,res)=>{
             res.render("menuGeneral");
         }
         else{
-            res.render("index");
+            let failed=true;
+            res.render("index",{failed});
         }
     
         //rest of your code goes in here
@@ -68,8 +69,8 @@ app.post("/logout",(req,res)=>{
         req.session.username=null;
         
     }
-
-    res.render("index");
+    let failed=false;
+    res.render("index",{failed});
 });
 
 
