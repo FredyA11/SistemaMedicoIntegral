@@ -159,7 +159,8 @@ class MedicalDAO{
             
         })
       
-    }
+    } 
+    //Buscar medico por nombre
     buscaMedicoNom(credentials,callback){
         var existe=false;
         let cedula=credentials[0];
