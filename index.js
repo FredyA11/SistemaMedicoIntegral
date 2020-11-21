@@ -126,22 +126,30 @@ app.get("/registrarMedico",(req,res)=>{
 app.get("/buscaMedico",(req,res)=>{
     let registro=false;
     let fallido=false;
-    res.render("consultaMedicos",{registro,fallido});
+    let pacientes=[];
+    res.render("consultaMedicos",{registro,fallido,pacientes});
 });
 //Buscar medico por nombre
 app.post("/buscarMedicoN",(req,res)=>{
     medicalDAO.createConnection();
     medicalDAO.connectToDatabase();
+    let pacientes=[];
     var credentials=[req.body.nombre];
-    medicalDAO.buscaMedicoNom(credentials, function(err,result){
-        if(result==true){
-            console.log("Si existe");
-            res.render("index");
-        }
-        else{
+    medicalDAO.buscaMedicoNom(credentials, function(result){
+        if(result==null){
             let registro=true;
             let fallido=true;
-            res.render("consultaMedicos",{registro,fallido});
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+        else{
+            let registro=false;
+            let fallido=false;
+            console.log("Si existe");
+            for(i=0;i<result.length;i++){
+                pacientes.push(result[i]);
+                console.log(result[i].nombre);
+            }
+            res.render("consultaMedicos",{registro,fallido,pacientes});
         }
      });    
 });
@@ -150,16 +158,23 @@ app.post("/buscarMedicoN",(req,res)=>{
 app.post("/buscarMedicoC",(req,res)=>{
     medicalDAO.createConnection();
     medicalDAO.connectToDatabase();
+    let pacientes=[];
     var credentials=[req.body.cedPro];
-    medicalDAO.buscaMedicoCed(credentials, function(err,result){
-        if(result==true){
-            console.log("Si existe");
-            res.render("index");
-        }
-        else{
+    medicalDAO.buscaMedicoCed(credentials, function(result){
+        if(result==null){
             let registro=true;
             let fallido=true;
-            res.render("consultaMedicos",{registro,fallido});
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+        else{
+            let registro=false;
+            let fallido=false;
+            console.log("Si existe");
+            for(i=0;i<result.length;i++){
+                pacientes.push(result[i]);
+                console.log(result[i].nombre);
+            }
+            res.render("consultaMedicos",{registro,fallido,pacientes});
         }
      });    
 });

@@ -135,6 +135,30 @@
             <button type="submit" class="btn btn-primary">Buscar por Cédula</button>
           </form>
         </div>
+        <div class="row  justify-content-center">
+          <% for( let i = 0; i < pacientes.length; i++ ) { %>
+              <div class="row mt-5 w-75 justify-content-center">
+                  <div class="card bg-info text-white  w-100">
+                      <div class="card-header">
+                        <h4><%= pacientes[i].nombre  %> </h4> 
+
+                      </div>
+                      <div class="card-body text-dark bg-light  ">
+                        <h5 class="card-title">Especialidad</h5>
+                        <p><%= pacientes[i].especialidad %> </p>
+                        <h5 class="card-title">Cedula Profesional</h5>
+                        <p><%= pacientes[i].cedPro %> </p>
+                        <h5 class="card-title">Equipo de Trabajo</h5>
+                        <p><%= pacientes[i].equipoTrabajo %> </p>
+                        <h5 class="card-title">Universidad</h5>
+                        <p><%= pacientes[i].universidad %> </p>
+                        <h5 class="card-title">Afiliacion</h5>
+                        <p><%= pacientes[i].afilicacion %> </p>
+                      </div>
+                  </div>
+              </div>
+          <% } %> 
+      </div>
 
       <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

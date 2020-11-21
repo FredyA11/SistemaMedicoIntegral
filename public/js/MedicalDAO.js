@@ -162,13 +162,9 @@ class MedicalDAO{
                     callback(err,existe);
                 }
                 else{
-                    existe=true;
-                    console.log("Ya existe esta repetido");
-                    callback(null,existe);
+                    console.log(results);
+                    callback(results);
                 }
-
-                    
-                
             }
             
         })
@@ -192,13 +188,8 @@ class MedicalDAO{
                     callback(err,existe);
                 }
                 else{
-                    existe=true;
-                    console.log("Ya existe esta repetido");
-                    callback(null,existe);
+                    callback(results);
                 }
-
-                    
-                
             }
             
         })
