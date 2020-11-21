@@ -15,6 +15,18 @@
                 background-color: #fafafa;
             }
         </style>
+        <script>
+            $( document ).ready(function() {
+                var failedState=<%= failed %>;
+                if(failedState==true){
+                    $('#myModal').modal('show');
+                }
+                else{
+                    $('#myModal').modal('hide');
+                }
+                console.log(failedState);
+            });
+        </script>
     </head>
     <body>
         <div class="container-fluid h-100">
@@ -50,7 +62,27 @@
 
                     </div> 
                 </div>
-                
+
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Alerta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    No se ha encontrado una cuenta con estas credenciales, favor de colocar una cuenta válida
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
             </div>
         </div>
     </body>

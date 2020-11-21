@@ -41,25 +41,21 @@ class MedicalDAO{
         console.log(sql);
         this.con.query(sql, function(err, results){
             if (err){ 
-                console.log(err);
+                console.log("El error es:"+err);
                 existe=false;
                 let usuario2=null;
                 callback(err,existe,usuario);
-                throw err;
-                
+
             }
             else{
                 if(results.length==0){
                     existe=false;
                     let usuario2=null;
-                    callback(err,existe,usuario);
+                    callback(err,existe,usuario2);
                 }
                 else{
                     existe=true;
-                    
-                }
-
-                let usuario="";
+                    let usuario="";
                     if(tipoUsuario=="Administrador"){
                         usuario=results[0].id;
                     }
@@ -72,6 +68,9 @@ class MedicalDAO{
                     
                     console.log(usuario);
                     callback(null,existe,usuario);
+                }
+
+                    
                 
             }
             
