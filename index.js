@@ -1,6 +1,5 @@
 //Imports
 //Creo ya sirve esta cosa
->>>>>>> d7ef6e8f40776e01122fc45482baa513d88ee124
 const express=require("express");
 const session=require("express-session");
 const MedicalDAO= require("./public/js/MedicalDAO.js")
