@@ -44,7 +44,7 @@ app.get('',(req,res)=>{
     res.render("index");
 });
 
-app.post("/doLogin",(req,res)=>{
+app.post("/login",(req,res)=>{
     medicalDAO.createConnection();
     medicalDAO.connectToDatabase();
     var credentials=[req.body.tipoUsuario,req.body.username,req.body.password];
