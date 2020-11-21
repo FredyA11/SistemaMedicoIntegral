@@ -81,11 +81,33 @@
             
                 
         </div>
-        <div class="row justify-content-center">
-            <div class="col-xl-12">
-                <h2>Registrar Nuevo paciente</h2>
+        <div class="row mt-5 justify-content-center">
+            <div class="col-xl-12 mt-5 text-center">
+                <h2 class="mt-5">Registrar Nuevo paciente</h2>
             </div>
             
+        </div>
+
+        <div class="row mt-4 justify-content-center">
+          <form method="POST" action="/registrarPaciente">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nombre Completo:</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresar nombre">
+            </div>
+            <div class="form-group">
+              <label for="segSoc">Número seguro social:</label>
+              <input type="text" class="form-control" id="segSoc" aria-describedby="emailHelp" placeholder="Ingresar nombre">
+            </div>
+            <div class="form-group">
+              <label for="poliza">Póliza de Seguro:</label>
+              <input type="text" class="form-control" id="poliza" aria-describedby="emailHelp" placeholder="Ingresar nombre">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </form>
         </div>
     </body>
 

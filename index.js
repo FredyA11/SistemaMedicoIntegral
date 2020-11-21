@@ -74,6 +74,10 @@ app.post("/logout",(req,res)=>{
 });
 
 app.get("/registrarPaciente",(req,res)=>{
+    res.render("registroPaciente");
+});
+
+app.post("/registrarPaciente",(req,res)=>{
     
 });
 
