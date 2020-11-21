@@ -10,7 +10,7 @@ class MedicalDAO{
         this.con = mysql.createConnection({
             host: "localhost",
             user: "root",
-            password: "",
+            password: "Octubre.19",
             database:"centromedicodb"
         });
     }
