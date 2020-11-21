@@ -74,11 +74,30 @@ app.post("/logout",(req,res)=>{
 });
 
 app.get("/registrarPaciente",(req,res)=>{
-    res.render("registroPaciente");
+    let registro=false;
+    res.render("registroPaciente",{registro});
 });
 
 app.post("/registrarPaciente",(req,res)=>{
-    
+    console.log("Registrado correctamente");
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.nombre,req.body.seguroSoc,req.body.poliza,req.body.password];
+    medicalDAO.registrarPaciente(credentials, function(err,result){
+        if(result=="error"){
+            let registro=true;
+            let fallido=true;
+            res.render("registroPaciente",{registro,fallido});
+        }
+        else{
+            console.log("Paciente registrado con exito");
+            let registro=true;
+            res.render("registroPaciente",{registro});
+        }
+            
+        
+        //rest of your code goes in here
+     });
 });
 
 
