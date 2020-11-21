@@ -1,5 +1,5 @@
 //Imports
-//Creo ya sirve esta cosa
+//Creo ya sirve esta cosa fredy crazy
 const express=require("express");
 const session=require("express-session");
 const MedicalDAO= require("./public/js/MedicalDAO.js")
