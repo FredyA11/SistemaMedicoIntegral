@@ -109,11 +109,12 @@ app.get("/consultarPacientes",(req,res)=>{
     medicalDAO.consultarPacientes(function(result){
         for(i=0;i<result.length;i++){
             pacientes.push(result[i]);
+            console.log(result[i].nombre);
         }
-        
+        res.render("consultaPacientes",{pacientes});
         //rest of your code goes in here
     });
-    res.render("consultaPacientes");
+    
 });
 
 app.get("/registrarMedico",(req,res)=>{
