@@ -117,7 +117,40 @@ app.get("/consultarPacientes",(req,res)=>{
 });
 
 app.get("/registrarMedico",(req,res)=>{
-    res.render("registroMedico");
+    let registro=false;
+    let fallido=false;
+    res.render("registroMedico",{registro,fallido});
+});
+
+app.post("/guardarMedico",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.medicoName,req.body.especialidad,req.body.cedPro,req.body.passwordM,req.body.eqTrabajo,req.body.uni,req.body.afiliacion];
+    medicalDAO.buscaMedico(credentials, function(err,result){
+        if(result==true){
+            console.log("No se puede registrar");
+            let registro=true;
+            let fallido=true;
+            res.render("registroMedico",{registro,fallido});
+        }
+        else{
+            medicalDAO.registrarMedico(credentials, function(err,result){
+                if (result==true){
+                    let registro=true;
+                    let fallido=false;
+                    res.render("registroMedico",{registro,fallido});
+                }
+                else{
+                    let registro=true;
+                    let fallido=true;
+                    res.render("registroMedico",{registro,fallido});
+                }
+            });
+        }
+    
+        //rest of your code goes in here
+     });
+    
 });
 
 
