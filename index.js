@@ -41,7 +41,8 @@ app.get('',(req,res)=>{
     }
     console.log("Usuario:"+req.session.username);*/
     //let veces=req.session.cuenta;
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.post("/login",(req,res)=>{
@@ -55,7 +56,8 @@ app.post("/login",(req,res)=>{
             res.render("menuGeneral");
         }
         else{
-            res.render("index");
+            let fallido=true;
+            res.render("index",{fallido});
         }
     
         //rest of your code goes in here
@@ -69,11 +71,76 @@ app.post("/logout",(req,res)=>{
         req.session.username=null;
         
     }
-
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.get("/registrarPaciente",(req,res)=>{
+    let registro=false;
+    let fallido=false;
+    res.render("registroPaciente",{registro,fallido});
+});
+
+app.post("/registrarPaciente",(req,res)=>{
+    console.log("Registrado correctamente");
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.nombre,req.body.seguroSoc,req.body.poliza,req.body.password];
+    medicalDAO.registrarPaciente(credentials, function(err,result){
+        if(result=="error"){
+            let registro=true;
+            let fallido=true;
+            res.render("registroPaciente",{registro,fallido});
+        }
+        else{
+            console.log("Paciente registrado con exito");
+            let registro=true;
+            let fallido=false;
+            res.render("registroPaciente",{registro,fallido});
+        }
+            
+        
+        //rest of your code goes in here
+     });
+});
+
+app.get("/consultarPacientes",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let pacientes=[];
+    medicalDAO.consultarPacientes(function(result){
+        for(i=0;i<result.length;i++){
+            pacientes.push(result[i]);
+            console.log(result[i].nombre);
+        }
+        let estado="exito";
+        res.render("consultaPacientes",{pacientes,estado});
+        //rest of your code goes in here
+    });
+    
+});
+
+app.post("/buscarPaciente",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let numeroSeguro=req.body.numero;
+    console.log("El numero es:"+numeroSeguro);
+    let pacientes=[];
+    medicalDAO.buscarPaciente(numeroSeguro,function(result){
+        if(result.length==0){
+            let estado="fallido";
+            res.render("consultaPacientes",{pacientes,estado});
+        }
+        else{
+            let estado="exito";
+            pacientes.push(result[0]);
+            console.log(pacientes[0].nombre);
+            
+            res.render("consultaPacientes",{pacientes,estado});
+        }
+        
+        //rest of your code goes in here
+    });
     
 });
 

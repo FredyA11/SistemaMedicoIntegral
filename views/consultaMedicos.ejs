@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BeWell - Registrar Paciente</title>
+        <title>BeWell - Busca Medico</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -88,7 +88,7 @@
                                 <a class="nav-link" href="#">Recetas</a>
                               </li>
                               <li class="nav-item ml-3">
-                                <a class="nav-link" href="#">Registro Pacientes</a>
+                                <a class="nav-link" href="/registrarPaciente">Registro Pacientes</a>
                               </li>
                               <li class="nav-item ml-3">
                                 <a class="nav-link" href="#">Control Médicos</a>
@@ -99,9 +99,6 @@
                               <li class="nav-item ml-3">
                                 <a class="nav-link" href="/registrarMedico">Registrar Medico</a>
                               </li>
-                              <form class="ml-3" method="POST" action="/logout">
-                                <button type="submit" class="btn " style="background-color:#48b6c7;">Cerrar Sesión</button>
-                            </form>
                           </ul>
                         </div>
                     </nav>
@@ -113,50 +110,54 @@
         </div>
         <div class="row mt-5 justify-content-center">
             <div class="col-xl-12 mt-5 text-center">
-                <h2 class="mt-5">Registrar Nuevo paciente</h2>
+                <h2 class="mt-5">Buscar Médico</h2>
             </div>
             
         </div>
 
         <div class="row mt-4 justify-content-center">
-          <form method="POST" action="/registrarPaciente">
+          <form method="POST" action="/buscarMedicoN">
             <div class="form-group">
               <label for="exampleInputEmail1">Nombre Completo:</label>
               <input type="text" required name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresar nombre">
             </div>
-            <div class="form-group">
-              <label for="segSoc">Número seguro social:</label>
-              <input type="text" required name="seguroSoc" class="form-control" id="segSoc" aria-describedby="emailHelp" placeholder="Ingresar nombre">
-            </div>
-            <div class="form-group">
-              <label for="poliza">Póliza de Seguro:</label>
-              <input type="text" required name="poliza" class="form-control" id="poliza" aria-describedby="emailHelp" placeholder="Ingresar nombre">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" required name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            
+            <button type="submit" class="btn btn-primary">Buscar por nombre</button>
           </form>
         </div>
+        <div class="row mt-4 justify-content-center">
+          <form method="POST" action="/buscarMedicoC">
+            <div class="form-group">
+              <label for="cedPro">Cédula Profesional:</label>
+              <input type="text" class="form-control" name="cedPro" aria-describedby="emailHelp" placeholder="Ingresar Cedula Profesional" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Buscar por Cédula</button>
+          </form>
+        </div>
+        <div class="row  justify-content-center">
+          <% for( let i = 0; i < pacientes.length; i++ ) { %>
+              <div class="row mt-5 w-75 justify-content-center">
+                  <div class="card bg-info text-white  w-100">
+                      <div class="card-header">
+                        <h4><%= pacientes[i].nombre  %> </h4> 
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Aviso</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+                      </div>
+                      <div class="card-body text-dark bg-light  ">
+                        <h5 class="card-title">Especialidad</h5>
+                        <p><%= pacientes[i].especialidad %> </p>
+                        <h5 class="card-title">Cedula Profesional</h5>
+                        <p><%= pacientes[i].cedPro %> </p>
+                        <h5 class="card-title">Equipo de Trabajo</h5>
+                        <p><%= pacientes[i].equipoTrabajo %> </p>
+                        <h5 class="card-title">Universidad</h5>
+                        <p><%= pacientes[i].universidad %> </p>
+                        <h5 class="card-title">Afiliacion</h5>
+                        <p><%= pacientes[i].afilicacion %> </p>
+                      </div>
+                  </div>
               </div>
-              <div class="modal-body">
-                  Usuario se ha registrado correctamente
-              </div>
-              <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-          </div>
-          </div>
+          <% } %> 
       </div>
 
       <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -169,7 +170,7 @@
             </button>
             </div>
             <div class="modal-body">
-                No se ha podido registrar correctamente al usuario
+                No ha encontrado ningún médico
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

@@ -22,6 +22,58 @@ class MedicalDAO{
         });
     }
 
+    consultarPacientes(callback){
+        let sql="SELECT * FROM paciente";
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                let result="error";
+                callback(result);
+
+            }
+            else{
+                callback(results);
+            }
+            
+        });
+    }
+
+    buscarPaciente(numeroSegSoc,callback){
+        let sql="SELECT * FROM paciente WHERE noSegSoc='"+numeroSegSoc+"';";
+        console.log(sql);
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                let result="error";
+                callback(results);
+
+            }
+            else{
+                callback(results);
+            }
+            
+        });
+    }
+
+    registrarPaciente(userValues,callback){
+        let nombre=userValues[0];
+        let noSegSoc=userValues[1];
+        let password=userValues[2];
+        let poliza=userValues[3];
+        let sql="INSERT INTO paciente(nombre,noSegSoc,password,poliza) VALUES ('"+nombre+"','"+noSegSoc+"','"+password+"','"+poliza+"')";
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                let result="error";
+                callback(err,result);
+
+            }
+            else{
+                let result="success";
+                console.log(results);
+                callback(err,result);
+            }
+            
+        });
+    }
+
     loginUsuario(credentials,callback){
         var existe=false;
         let tipoUsuario=credentials[0];

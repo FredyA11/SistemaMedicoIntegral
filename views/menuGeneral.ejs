@@ -43,10 +43,12 @@
                                   Consultas
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item" href="#">Action</a>
-                                  <a class="dropdown-item" href="#">Another action</a>
-                                  <div class="dropdown-divider"></div>
-                                  <a class="dropdown-item" href="#">Something else here</a>
+                                  <a class="dropdown-item" href="/consultarPacientes">Consulta Pacientes</a>
+                                  <a class="dropdown-item" href="#">Consulta Pacientes por Médico</a>
+                                  <a class="dropdown-item" href="#">Consulta Historial Médico por Paciente</a>
+                                  <a class="dropdown-item" href="#">Consulta Recetas por paciente</a>
+                                  <a class="dropdown-item" href="#">Consulta Recetas por médico</a>
+                                  <a class="dropdown-item" href="/buscaMedico">Consulta Médicos</a>
                                 </div>
                               </li>
                               <li class="nav-item dropdown ml-3">
@@ -72,6 +74,12 @@
                               <li class="nav-item ml-3">
                                 <a class="nav-link" href="#">Equipo Trabajo</a>
                               </li>
+                              <li class="nav-item ml-3">
+                                <a class="nav-link" href="/registrarMedico">Registrar Medico</a>
+                              </li>
+                              <form class="ml-3" method="POST" action="/logout">
+                                <button type="submit" class="btn " style="background-color:#48b6c7;">Cerrar Sesión</button>
+                            </form>
                           </ul>
                         </div>
                     </nav>
@@ -85,9 +93,7 @@
             <div class="col-xl-12">
               <img src="images/hospital.jpg" class="w-100 img-fluid">
             </div>
-            <form method="POST" action="/logout">
-                <button type="submit" class="btn btn-primary">Cerrar Sesión</button>
-            </form>
+          
             
         </div>
     </body>

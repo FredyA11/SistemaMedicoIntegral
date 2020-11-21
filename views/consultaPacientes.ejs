@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BeWell - Registrar Paciente</title>
+        <title>BeWell - Medical Clinic</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
-        
+
         <style>
             body{
                 font-family: 'Rubik', sans-serif;
                 
             }
 
+            .mt-8{
+                margin-top: 10%;
+            }
 
 
             a:hover{
               background-color:  #48b6c7;
               color:white;
             }
+
         </style>
 
-        <% if (registro) { %>
-          <script>
-            var registroS = <%= registro %>;
-            var regFallido=<%= fallido %>;
+        <% if (estado) { %>
+            <script>
+            var estadoC = <%= estado %>;
             console.log(registroS);
             $( document ).ready(function() {
-                if(registroS==true){
-                    if(regFallido){
-                      $('#myModal2').modal('show');
-                    }
-                    else{
-                      $('#myModal').modal('show');
-                    }
+                if(estadoC=="exito"){
+                    $('#myModal2').modal('hide');
                     
                 }
                 else{
-                    $('#myModal').modal('hide');
+                    $('#myModal2').modal('show');
                 }
-              });
-          </script>
+                });
+            </script>
         <% } %>
     </head>
 
@@ -70,7 +68,7 @@
                                   <a class="dropdown-item" href="#">Consulta Historial Médico por Paciente</a>
                                   <a class="dropdown-item" href="#">Consulta Recetas por paciente</a>
                                   <a class="dropdown-item" href="#">Consulta Recetas por médico</a>
-                                  <a class="dropdown-item" href="/buscaMedico">Consulta Médicos</a>
+                                  <a class="dropdown-item" href="#">Consulta Médicos</a>
                                 </div>
                               </li>
                               <li class="nav-item dropdown ml-3">
@@ -88,7 +86,7 @@
                                 <a class="nav-link" href="#">Recetas</a>
                               </li>
                               <li class="nav-item ml-3">
-                                <a class="nav-link" href="#">Registro Pacientes</a>
+                                <a class="nav-link" href="/registrarPaciente">Registro Pacientes</a>
                               </li>
                               <li class="nav-item ml-3">
                                 <a class="nav-link" href="#">Control Médicos</a>
@@ -108,75 +106,65 @@
                 </div>
                 
             </div>
+
+            <div class="row mt-8 justify-content-center ml-n5">
+                <div class="col-xl-8">
+                    <form method="POST" action="/buscarPaciente">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Buscar Paciente:</label>
+                          <input type="text" name="numero" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Número Seguro Social">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                      </form>
+                </div>
+            </div>
+
+            <div class="row  justify-content-center">
+                
+                <% if (estado=="exito") { %>
+                    <% for( let i = 0; i < pacientes.length; i++ ) { %>
+                        <div class="row mt-5 w-75 justify-content-center">
+                            <div class="card bg-info text-white  w-100">
+                                <div class="card-header">
+                                  <h4><%= pacientes[i].nombre  %> </h4> 
+    
+                                </div>
+                                <div class="card-body text-dark bg-light  ">
+                                  <h5 class="card-title">Numero Seguro Social</h5>
+                                  <p><%= pacientes[i].noSegSoc %> </p>
+                                  <h5 class="card-title">Poliza Seguro</h5>
+                                  <p><%= pacientes[i].poliza %> </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <% } %> 
+                <% } %>
+                
+            </div>
             
                 
         </div>
-        <div class="row mt-5 justify-content-center">
-            <div class="col-xl-12 mt-5 text-center">
-                <h2 class="mt-5">Registrar Nuevo paciente</h2>
-            </div>
-            
-        </div>
 
-        <div class="row mt-4 justify-content-center">
-          <form method="POST" action="/registrarPaciente">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombre Completo:</label>
-              <input type="text" required name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresar nombre">
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    No se ha encontrado un paciente con ese número de seguro
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="segSoc">Número seguro social:</label>
-              <input type="text" required name="seguroSoc" class="form-control" id="segSoc" aria-describedby="emailHelp" placeholder="Ingresar nombre">
-            </div>
-            <div class="form-group">
-              <label for="poliza">Póliza de Seguro:</label>
-              <input type="text" required name="poliza" class="form-control" id="poliza" aria-describedby="emailHelp" placeholder="Ingresar nombre">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" required name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar</button>
-          </form>
-        </div>
-
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Aviso</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-              </div>
-              <div class="modal-body">
-                  Usuario se ha registrado correctamente
-              </div>
-              <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-          </div>
-          </div>
-      </div>
-
-      <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Aviso</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                No se ha podido registrar correctamente al usuario
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
-        </div>
-    </div>
     </body>
 
 </html>
