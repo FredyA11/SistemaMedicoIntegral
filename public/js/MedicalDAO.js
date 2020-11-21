@@ -1,4 +1,4 @@
-const { query } = require('express');
+//const { query } = require('express');
 const mysql=require('mysql');
 
 class MedicalDAO{
