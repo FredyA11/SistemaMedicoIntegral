@@ -111,7 +111,32 @@ app.get("/consultarPacientes",(req,res)=>{
             pacientes.push(result[i]);
             console.log(result[i].nombre);
         }
-        res.render("consultaPacientes",{pacientes});
+        let estado="exito";
+        res.render("consultaPacientes",{pacientes,estado});
+        //rest of your code goes in here
+    });
+    
+});
+
+app.post("/buscarPaciente",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let numeroSeguro=req.body.numero;
+    console.log("El numero es:"+numeroSeguro);
+    let pacientes=[];
+    medicalDAO.buscarPaciente(numeroSeguro,function(result){
+        if(result.length==0){
+            let estado="fallido";
+            res.render("consultaPacientes",{pacientes,estado});
+        }
+        else{
+            let estado="exito";
+            pacientes.push(result[0]);
+            console.log(pacientes[0].nombre);
+            
+            res.render("consultaPacientes",{pacientes,estado});
+        }
+        
         //rest of your code goes in here
     });
     
