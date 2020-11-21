@@ -144,40 +144,46 @@ app.post("/buscarPaciente",(req,res)=>{
     
 });
 
-app.get("/generarReceta", (req,res)=>{
-    res.render("recetaMed", {medico:req.session.username});
+app.get("/registrarMedico",(req,res)=>{
+    let registro=false;
+    let fallido=false;
+    res.render("registroMedico",{registro,fallido});
 });
 
-app.post("/registrarReceta", (req,res)=>{
-    console.log(req.body.idPaciente + req.body.idMedico + req.body.descrip + req.body.fecha);
-    //consultar que el paciente exista
-    //medicalDAO.connectToDatabase();
-    medicalDAO.consultarPaciente(req.body.idPaciente, function(err, result){
+app.post("/guardarMedico",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.medicoName,req.body.especialidad,req.body.cedPro,req.body.passwordM,req.body.eqTrabajo,req.body.uni,req.body.afiliacion];
+    medicalDAO.buscaMedico(credentials, function(err,result){
         if(result==true){
-            console.log("Se encontró el paciente en la db");
-            //consultar que el médico exista y obtener sus datos
-            
-            //generar el código QR con los datos del médico
-    
-            //generar un PDF y descargarlo
-    
-            //regresar al usuario a la pantalla inicial
-        }else{
-            console.log("No se encontró el pacientes");
+            console.log("No se puede registrar");
+            let registro=true;
+            let fallido=true;
+            res.render("registroMedico",{registro,fallido});
         }
-        res.render("menuGeneral");
-    });
+        else{
+            medicalDAO.registrarMedico(credentials, function(err,result){
+                if (result==true){
+                    let registro=true;
+                    let fallido=false;
+                    res.render("registroMedico",{registro,fallido});
+                }
+                else{
+                    let registro=true;
+                    let fallido=true;
+                    res.render("registroMedico",{registro,fallido});
+                }
+            });
+        }
+    
+        //rest of your code goes in here
+     });
+    
 });
 
-app.get("/volverMenuG", (req,res)=>{
-    res.render("menuGeneral");
-});
+
 
 //Listen on port
 app.listen(port,()=>{
     console.log("Listening on port 8080");
 });
-
-
-
-
