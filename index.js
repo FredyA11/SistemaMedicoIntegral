@@ -41,7 +41,8 @@ app.get('',(req,res)=>{
     }
     console.log("Usuario:"+req.session.username);*/
     //let veces=req.session.cuenta;
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.post("/login",(req,res)=>{
@@ -55,7 +56,8 @@ app.post("/login",(req,res)=>{
             res.render("menuGeneral");
         }
         else{
-            res.render("index");
+            let fallido=true;
+            res.render("index",{fallido});
         }
     
         //rest of your code goes in here
@@ -69,8 +71,8 @@ app.post("/logout",(req,res)=>{
         req.session.username=null;
         
     }
-
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.get("/registrarPaciente",(req,res)=>{
@@ -142,104 +144,40 @@ app.post("/buscarPaciente",(req,res)=>{
     
 });
 
-app.get("/registrarMedico",(req,res)=>{
-    let registro=false;
-    let fallido=false;
-    res.render("registroMedico",{registro,fallido});
-});
-//render de form para buscar medico
-app.get("/buscaMedico",(req,res)=>{
-    let registro=false;
-    let fallido=false;
-    let pacientes=[];
-    res.render("consultaMedicos",{registro,fallido,pacientes});
-});
-//Buscar medico por nombre
-app.post("/buscarMedicoN",(req,res)=>{
-    medicalDAO.createConnection();
-    medicalDAO.connectToDatabase();
-    let pacientes=[];
-    var credentials=[req.body.nombre];
-    medicalDAO.buscaMedicoNom(credentials, function(result){
-        if(result==null){
-            let registro=true;
-            let fallido=true;
-            res.render("consultaMedicos",{registro,fallido,pacientes});
-        }
-        else{
-            let registro=false;
-            let fallido=false;
-            console.log("Si existe");
-            for(i=0;i<result.length;i++){
-                pacientes.push(result[i]);
-                console.log(result[i].nombre);
-            }
-            res.render("consultaMedicos",{registro,fallido,pacientes});
-        }
-     });    
+app.get("/generarReceta", (req,res)=>{
+    res.render("recetaMed", {medico:req.session.username});
 });
 
-//Buscar medico por cedula
-app.post("/buscarMedicoC",(req,res)=>{
-    medicalDAO.createConnection();
-    medicalDAO.connectToDatabase();
-    let pacientes=[];
-    var credentials=[req.body.cedPro];
-    medicalDAO.buscaMedicoCed(credentials, function(result){
-        if(result==null){
-            let registro=true;
-            let fallido=true;
-            res.render("consultaMedicos",{registro,fallido,pacientes});
-        }
-        else{
-            let registro=false;
-            let fallido=false;
-            console.log("Si existe");
-            for(i=0;i<result.length;i++){
-                pacientes.push(result[i]);
-                console.log(result[i].nombre);
-            }
-            res.render("consultaMedicos",{registro,fallido,pacientes});
-        }
-     });    
-});
-
-app.post("/guardarMedico",(req,res)=>{
-    medicalDAO.createConnection();
-    medicalDAO.connectToDatabase();
-    var credentials=[req.body.medicoName,req.body.especialidad,req.body.cedPro,req.body.passwordM,req.body.eqTrabajo,req.body.uni,req.body.afiliacion];
-    medicalDAO.buscaMedico(credentials, function(err,result){
+app.post("/registrarReceta", (req,res)=>{
+    console.log(req.body.idPaciente + req.body.idMedico + req.body.descrip + req.body.fecha);
+    //consultar que el paciente exista
+    //medicalDAO.connectToDatabase();
+    medicalDAO.consultarPaciente(req.body.idPaciente, function(err, result){
         if(result==true){
-            console.log("No se puede registrar");
-            let registro=true;
-            let fallido=true;
-            res.render("registroMedico",{registro,fallido});
-        }
-        else{
-            medicalDAO.registrarMedico(credentials, function(err,result){
-                if (result==true){
-                    let registro=true;
-                    let fallido=false;
-                    res.render("registroMedico",{registro,fallido});
-                }
-                else{
-                    let registro=true;
-                    let fallido=true;
-                    res.render("registroMedico",{registro,fallido});
-                }
-            });
-        }
+            console.log("Se encontró el paciente en la db");
+            //consultar que el médico exista y obtener sus datos
+            
+            //generar el código QR con los datos del médico
     
-        //rest of your code goes in here
-     });
-
-     
+            //generar un PDF y descargarlo
     
+            //regresar al usuario a la pantalla inicial
+        }else{
+            console.log("No se encontró el pacientes");
+        }
+        res.render("menuGeneral");
+    });
 });
 
-
+app.get("/volverMenuG", (req,res)=>{
+    res.render("menuGeneral");
+});
 
 //Listen on port
 app.listen(port,()=>{
     console.log("Listening on port 8080");
 });
+
+
+
+
