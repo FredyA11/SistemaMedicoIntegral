@@ -121,6 +121,47 @@ app.get("/registrarMedico",(req,res)=>{
     let fallido=false;
     res.render("registroMedico",{registro,fallido});
 });
+//render de form para buscar medico
+app.get("/buscaMedico",(req,res)=>{
+    let registro=false;
+    let fallido=false;
+    res.render("consultaMedicos",{registro,fallido});
+});
+//Buscar medico por nombre
+app.post("/buscarMedicoN",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.nombre];
+    medicalDAO.buscaMedicoNom(credentials, function(err,result){
+        if(result==true){
+            console.log("Si existe");
+            res.render("index");
+        }
+        else{
+            let registro=true;
+            let fallido=true;
+            res.render("consultaMedicos",{registro,fallido});
+        }
+     });    
+});
+
+//Buscar medico por cedula
+app.post("/buscarMedicoC",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.cedPro];
+    medicalDAO.buscaMedicoCed(credentials, function(err,result){
+        if(result==true){
+            console.log("Si existe");
+            res.render("index");
+        }
+        else{
+            let registro=true;
+            let fallido=true;
+            res.render("consultaMedicos",{registro,fallido});
+        }
+     });    
+});
 
 app.post("/guardarMedico",(req,res)=>{
     medicalDAO.createConnection();
@@ -150,6 +191,8 @@ app.post("/guardarMedico",(req,res)=>{
     
         //rest of your code goes in here
      });
+
+     
     
 });
 

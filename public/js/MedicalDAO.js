@@ -144,6 +144,66 @@ class MedicalDAO{
         })
       
     }
+    buscaMedicoNom(credentials,callback){
+        var existe=false;
+        let cedula=credentials[0];
+        var sql="select * from medico where nombre = '"+cedula+"';";
+        console.log(sql);
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                console.log("El error es:"+err);
+                existe=false;
+                callback(err,existe);
+            }
+            else{
+                if(results.length==0){
+                    existe=false;
+                    console.log("Si se puede crear");
+                    callback(err,existe);
+                }
+                else{
+                    existe=true;
+                    console.log("Ya existe esta repetido");
+                    callback(null,existe);
+                }
+
+                    
+                
+            }
+            
+        })
+      
+    }
+    buscaMedicoCed(credentials,callback){
+        var existe=false;
+        let cedula=credentials[0];
+        var sql="select * from medico where cedPro = '"+cedula+"';";
+        console.log(sql);
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                console.log("El error es:"+err);
+                existe=false;
+                callback(err,existe);
+            }
+            else{
+                if(results.length==0){
+                    existe=false;
+                    console.log("Si se puede crear");
+                    callback(err,existe);
+                }
+                else{
+                    existe=true;
+                    console.log("Ya existe esta repetido");
+                    callback(null,existe);
+                }
+
+                    
+                
+            }
+            
+        })
+      
+    }
 
     registrarMedico(credentials,callback){
         var existe=false;
