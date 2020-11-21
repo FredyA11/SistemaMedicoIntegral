@@ -75,7 +75,8 @@ app.post("/logout",(req,res)=>{
 
 app.get("/registrarPaciente",(req,res)=>{
     let registro=false;
-    res.render("registroPaciente",{registro});
+    let fallido=false;
+    res.render("registroPaciente",{registro,fallido});
 });
 
 app.post("/registrarPaciente",(req,res)=>{
@@ -92,7 +93,8 @@ app.post("/registrarPaciente",(req,res)=>{
         else{
             console.log("Paciente registrado con exito");
             let registro=true;
-            res.render("registroPaciente",{registro});
+            let fallido=false;
+            res.render("registroPaciente",{registro,fallido});
         }
             
         
@@ -101,7 +103,9 @@ app.post("/registrarPaciente",(req,res)=>{
 });
 
 app.get("/registrarMedico",(req,res)=>{
-    res.render("registroMedico");
+    let registro=false;
+    let fallido=false;
+    res.render("registroMedico",{registro,fallido});
 });
 
 app.post("/guardarMedico",(req,res)=>{
@@ -110,15 +114,22 @@ app.post("/guardarMedico",(req,res)=>{
     var credentials=[req.body.medicoName,req.body.especialidad,req.body.cedPro,req.body.passwordM,req.body.eqTrabajo,req.body.uni,req.body.afiliacion];
     medicalDAO.buscaMedico(credentials, function(err,result){
         if(result==true){
-            alert("Registro exitoso");
+            console.log("No se puede registrar");
+            let registro=true;
+            let fallido=true;
+            res.render("registroMedico",{registro,fallido});
         }
         else{
             medicalDAO.registrarMedico(credentials, function(err,result){
                 if (result==true){
-                    alert("Registro exitoso");
+                    let registro=true;
+                    let fallido=false;
+                    res.render("registroMedico",{registro,fallido});
                 }
                 else{
-                    alert("Registro fallido");
+                    let registro=true;
+                    let fallido=true;
+                    res.render("registroMedico",{registro,fallido});
                 }
             });
         }
