@@ -26,6 +26,22 @@
             }
 
         </style>
+
+        <% if (estado) { %>
+            <script>
+            var estadoC = <%= estado %>;
+            console.log(registroS);
+            $( document ).ready(function() {
+                if(estadoC=="exito"){
+                    $('#myModal2').modal('hide');
+                    
+                }
+                else{
+                    $('#myModal2').modal('show');
+                }
+                });
+            </script>
+        <% } %>
     </head>
 
 
@@ -88,35 +104,63 @@
                 
             </div>
 
-            <div class="row mt-8 justify-content-center">
-                <div class="col-xl-4">
-                    <input type="text" placeholder="Search..">
+            <div class="row mt-8 justify-content-center ml-n5">
+                <div class="col-xl-8">
+                    <form method="POST" action="/buscarPaciente">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Buscar Paciente:</label>
+                          <input type="text" name="numero" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Número Seguro Social">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                      </form>
                 </div>
             </div>
 
             <div class="row  justify-content-center">
                 
-                
-                <% for( let i = 0; i < pacientes.length; i++ ) { %>
-                    <div class="row mt-5 w-75 justify-content-center">
-                        <div class="card bg-info text-white  w-100">
-                            <div class="card-header">
-                              <h4><%= pacientes[i].nombre  %> </h4> 
-
-                            </div>
-                            <div class="card-body text-dark bg-light  ">
-                              <h5 class="card-title">Numero Seguro Social</h5>
-                              <p><%= pacientes[i].noSegSoc %> </p>
-                              <h5 class="card-title">Poliza Seguro</h5>
-                              <p><%= pacientes[i].poliza %> </p>
+                <% if (estado=="exito") { %>
+                    <% for( let i = 0; i < pacientes.length; i++ ) { %>
+                        <div class="row mt-5 w-75 justify-content-center">
+                            <div class="card bg-info text-white  w-100">
+                                <div class="card-header">
+                                  <h4><%= pacientes[i].nombre  %> </h4> 
+    
+                                </div>
+                                <div class="card-body text-dark bg-light  ">
+                                  <h5 class="card-title">Numero Seguro Social</h5>
+                                  <p><%= pacientes[i].noSegSoc %> </p>
+                                  <h5 class="card-title">Poliza Seguro</h5>
+                                  <p><%= pacientes[i].poliza %> </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                <% } %> 
+                        
+                    <% } %> 
+                <% } %>
+                
             </div>
             
                 
+        </div>
+
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><img src="images/logo2.png" width="200" height="90">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    No se ha encontrado un paciente con ese número de seguro
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+            </div>
         </div>
     </body>
 
