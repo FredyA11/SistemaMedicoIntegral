@@ -22,6 +22,21 @@ class MedicalDAO{
         });
     }
 
+    consultarPacientes(callback){
+        let sql="SELECT * FROM paciente";
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                let result="error";
+                callback(result);
+
+            }
+            else{
+                callback(results);
+            }
+            
+        });
+    }
+
     registrarPaciente(userValues,callback){
         let nombre=userValues[0];
         let noSegSoc=userValues[1];

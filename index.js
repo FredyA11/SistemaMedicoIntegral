@@ -75,7 +75,8 @@ app.post("/logout",(req,res)=>{
 
 app.get("/registrarPaciente",(req,res)=>{
     let registro=false;
-    res.render("registroPaciente",{registro});
+    let fallido=false;
+    res.render("registroPaciente",{registro,fallido});
 });
 
 app.post("/registrarPaciente",(req,res)=>{
@@ -92,7 +93,8 @@ app.post("/registrarPaciente",(req,res)=>{
         else{
             console.log("Paciente registrado con exito");
             let registro=true;
-            res.render("registroPaciente",{registro});
+            let fallido=false;
+            res.render("registroPaciente",{registro,fallido});
         }
             
         
@@ -100,9 +102,25 @@ app.post("/registrarPaciente",(req,res)=>{
      });
 });
 
+app.get("/consultarPacientes",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let pacientes=[];
+    medicalDAO.consultarPacientes(function(result){
+        for(i=0;i<result.length;i++){
+            pacientes.push(result[i]);
+        }
+        
+        //rest of your code goes in here
+    });
+    res.render("consultaPacientes");
+});
+
 app.get("/registrarMedico",(req,res)=>{
     res.render("registroMedico");
 });
+
+
 
 //Listen on port
 app.listen(port,()=>{
