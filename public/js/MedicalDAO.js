@@ -9,7 +9,7 @@ class MedicalDAO{
     createConnection(){
         this.con = mysql.createConnection({
             host: "localhost",
-            user: "root",
+            user: "test1",
             password: "Octubre.19",
             database:"centromedicodb"
         });
@@ -130,23 +130,26 @@ class MedicalDAO{
       
     }
 
-    consultarPaciente(idP, callback){
-        var sql = "SELECT * FROM paciente WHERE noSegSoc ='"+idP+"';";
+    buscaMedico(credentials,callback){
+        var existe=false;
+        let cedula=credentials[2];
+        var sql="select * from medico where cedPro = '"+cedula+"';";
         console.log(sql);
-        var existe = false;
         this.con.query(sql, function(err, results){
             if (err){ 
                 console.log("El error es:"+err);
                 existe=false;
+                callback(err,existe);
             }
             else{
-                console.log(results);
                 if(results.length==0){
                     existe=false;
+                    console.log("Si se puede crear");
                     callback(err,existe);
                 }
                 else{
                     existe=true;
+                    console.log("Ya existe esta repetido");
                     callback(null,existe);
                 }
 
@@ -156,8 +159,7 @@ class MedicalDAO{
             
         })
       
-    } 
-    //Buscar medico por nombre
+    }
     buscaMedicoNom(credentials,callback){
         var existe=false;
         let cedula=credentials[0];
@@ -205,7 +207,29 @@ class MedicalDAO{
                     callback(results);
                 }
             }
+            
         })
+      
+    }
+
+    registrarMedico(credentials,callback){
+        var existe=false;
+        let cedula=credentials[2];
+        var sql="insert into medico (nombre,especialidad,cedPro,password,equipoTrabajo,universidad,afilicacion) values ('"+credentials[0]+"','"+credentials[1]+"','"+credentials[2]+"','"+credentials[3]+"','"+credentials[4]+"','"+credentials[5]+"','"+credentials[6]+"');";
+        console.log(sql);
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                console.log("El error es:"+err);
+                existe=false;
+                callback(err,existe);
+            }
+            else{ 
+                existe=true;
+                callback(err,existe);
+            }
+            
+        })
+      
     }
 
 }
