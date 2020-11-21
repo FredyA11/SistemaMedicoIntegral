@@ -77,8 +77,40 @@ app.get("/registrarPaciente",(req,res)=>{
     
 });
 
+app.get("/generarReceta", (req,res)=>{
+    res.render("recetaMed", {medico:req.session.username});
+});
+
+app.post("/registrarReceta", (req,res)=>{
+    console.log(req.body.idPaciente + req.body.idMedico + req.body.descrip + req.body.fecha);
+    //consultar que el paciente exista
+    //medicalDAO.connectToDatabase();
+    medicalDAO.consultarPaciente(req.body.idPaciente, function(err, result){
+        if(result==true){
+            console.log("Se encontró el paciente en la db");
+            //consultar que el médico exista y obtener sus datos
+            
+            //generar el código QR con los datos del médico
+    
+            //generar un PDF y descargarlo
+    
+            //regresar al usuario a la pantalla inicial
+        }else{
+            console.log("No se encontró el pacientes");
+        }
+        res.render("menuGeneral");
+    });
+});
+
+app.get("/volverMenuG", (req,res)=>{
+    res.render("menuGeneral");
+});
 
 //Listen on port
 app.listen(port,()=>{
     console.log("Listening on port 8080");
 });
+
+
+
+

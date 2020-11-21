@@ -9,8 +9,8 @@ class MedicalDAO{
     createConnection(){
         this.con = mysql.createConnection({
             host: "localhost",
-            user: "test1",
-            password: "Octubre.19",
+            user: "root",
+            password: "",
             database:"centromedicodb"
         });
     }
@@ -76,6 +76,29 @@ class MedicalDAO{
             
         })
       
+    }
+
+    consultarPaciente(idP, callback){
+        var sql = "SELECT * FROM paciente WHERE noSegSoc ='"+idP+"';";
+        console.log(sql);
+        var existe = false;
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                console.log("El error es:"+err);
+                existe=false;
+            }
+            else{
+                console.log(results);
+                if(results.length==0){
+                    existe=false;
+                    callback(err,existe);
+                }
+                else{
+                    existe=true;
+                    callback(null,existe);
+                }
+            }
+        })
     }
 
 }
