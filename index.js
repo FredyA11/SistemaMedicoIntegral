@@ -1,6 +1,6 @@
 //Imports
 //Creo ya sirve esta cosa
-//ojala que si ojala ojala
+//ojala que si ojala ojala Ni sirve que burroide
 const express=require("express");
 const session=require("express-session");
 const MedicalDAO= require("./public/js/MedicalDAO.js")
