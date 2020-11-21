@@ -73,6 +73,10 @@ app.post("/logout",(req,res)=>{
     res.render("index");
 });
 
+app.get("/registrarPaciente",(req,res)=>{
+    
+});
+
 
 //Listen on port
 app.listen(port,()=>{
