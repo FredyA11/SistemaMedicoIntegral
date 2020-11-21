@@ -80,6 +80,30 @@ app.get("/registrarMedico",(req,res)=>{
     res.render("registroMedico");
 });
 
+app.post("/guardarMedico",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    var credentials=[req.body.medicoName,req.body.especialidad,req.body.cedPro,req.body.passwordM,req.body.eqTrabajo,req.body.uni,req.body.afiliacion];
+    medicalDAO.buscaMedico(credentials, function(err,result){
+        if(result==true){
+            alert("Registro exitoso");
+        }
+        else{
+            medicalDAO.registrarMedico(credentials, function(err,result){
+                if (result==true){
+                    alert("Registro exitoso");
+                }
+                else{
+                    alert("Registro fallido");
+                }
+            });
+        }
+    
+        //rest of your code goes in here
+     });
+    
+});
+
 //Listen on port
 app.listen(port,()=>{
     console.log("Listening on port 8080");
