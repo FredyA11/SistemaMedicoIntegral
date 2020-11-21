@@ -22,6 +22,27 @@ class MedicalDAO{
         });
     }
 
+    registrarPaciente(userValues,callback){
+        let nombre=userValues[0];
+        let noSegSoc=userValues[1];
+        let password=userValues[2];
+        let poliza=userValues[3];
+        let sql="INSERT INTO paciente(nombre,noSegSoc,password,poliza) VALUES ('"+nombre+"','"+noSegSoc+"','"+password+"','"+poliza+"')";
+        this.con.query(sql, function(err, results){
+            if (err){ 
+                let result="error";
+                callback(err,result);
+
+            }
+            else{
+                let result="success";
+                console.log(results);
+                callback(err,result);
+            }
+            
+        });
+    }
+
     loginUsuario(credentials,callback){
         var existe=false;
         let tipoUsuario=credentials[0];
