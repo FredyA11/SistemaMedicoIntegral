@@ -41,7 +41,8 @@ app.get('',(req,res)=>{
     }
     console.log("Usuario:"+req.session.username);*/
     //let veces=req.session.cuenta;
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.post("/login",(req,res)=>{
@@ -55,7 +56,8 @@ app.post("/login",(req,res)=>{
             res.render("menuGeneral");
         }
         else{
-            res.render("index");
+            let fallido=true;
+            res.render("index",{fallido});
         }
     
         //rest of your code goes in here
@@ -69,8 +71,8 @@ app.post("/logout",(req,res)=>{
         req.session.username=null;
         
     }
-
-    res.render("index");
+    let fallido=false;
+    res.render("index",{fallido});
 });
 
 app.get("/registrarPaciente",(req,res)=>{

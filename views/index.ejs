@@ -15,9 +15,21 @@
                 background-color: #fafafa;
             }
         </style>
-        <script>
-            
-        </script>
+        <% if (fallido) { %>
+            <script>
+            var estadoC = <%= fallido %>;
+            console.log(estadoC);
+            $( document ).ready(function() {
+                if(estadoC==true){
+                    $('#myModal').modal('show');
+                    
+                }
+                else{
+                    $('#myModal').modal('hide');
+                }
+                });
+            </script>
+        <% } %>
     </head>
     <body>
         <div class="container-fluid h-100">
