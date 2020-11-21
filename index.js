@@ -100,6 +100,9 @@ app.post("/registrarPaciente",(req,res)=>{
      });
 });
 
+app.get("/registrarMedico",(req,res)=>{
+    res.render("registroMedico");
+});
 
 //Listen on port
 app.listen(port,()=>{
