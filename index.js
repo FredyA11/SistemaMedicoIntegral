@@ -76,6 +76,9 @@ app.post("/logout",(req,res)=>{
 app.get("/registrarPaciente",(req,res)=>{
     res.render("registroPaciente");
 });
+app.get("/registrarMedico",(req,res)=>{
+    res.render("registroMedico");
+});
 
 //Listen on port
 app.listen(port,()=>{
