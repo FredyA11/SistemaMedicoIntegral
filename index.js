@@ -149,6 +149,62 @@ app.get("/registrarMedico",(req,res)=>{
     let fallido=false;
     res.render("registroMedico",{registro,fallido});
 });
+//render de form para buscar medico
+app.get("/buscaMedico",(req,res)=>{
+    let registro=false;
+    let fallido=false;
+    let pacientes=[];
+    res.render("consultaMedicos",{registro,fallido,pacientes});
+});
+//Buscar medico por nombre
+app.post("/buscarMedicoN",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let pacientes=[];
+    var credentials=[req.body.nombre];
+    medicalDAO.buscaMedicoNom(credentials, function(result){
+        if(result==null){
+            let registro=true;
+            let fallido=true;
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+        else{
+            let registro=false;
+            let fallido=false;
+            console.log("Si existe");
+            for(i=0;i<result.length;i++){
+                pacientes.push(result[i]);
+                console.log(result[i].nombre);
+            }
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+     });    
+});
+
+//Buscar medico por cedula
+app.post("/buscarMedicoC",(req,res)=>{
+    medicalDAO.createConnection();
+    medicalDAO.connectToDatabase();
+    let pacientes=[];
+    var credentials=[req.body.cedPro];
+    medicalDAO.buscaMedicoCed(credentials, function(result){
+        if(result==null){
+            let registro=true;
+            let fallido=true;
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+        else{
+            let registro=false;
+            let fallido=false;
+            console.log("Si existe");
+            for(i=0;i<result.length;i++){
+                pacientes.push(result[i]);
+                console.log(result[i].nombre);
+            }
+            res.render("consultaMedicos",{registro,fallido,pacientes});
+        }
+     });    
+});
 
 app.post("/guardarMedico",(req,res)=>{
     medicalDAO.createConnection();
@@ -178,6 +234,8 @@ app.post("/guardarMedico",(req,res)=>{
     
         //rest of your code goes in here
      });
+
+     
     
 });
 
