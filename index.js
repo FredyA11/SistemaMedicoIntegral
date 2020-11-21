@@ -1,8 +1,5 @@
 //Imports
-<<<<<<< HEAD
 //Creo ya sirve esta cosa fredy crazy
-=======
->>>>>>> 416ad374a3fb5dd7225426c3250208c3780545be
 const express=require("express");
 const session=require("express-session");
 const MedicalDAO= require("./public/js/MedicalDAO.js")
